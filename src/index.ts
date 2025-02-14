@@ -1,12 +1,16 @@
-import express from 'express'
+import dotenv from 'dotenv'
+import Database from './db/database'
+dotenv.config()
 
-const app = express()
+async function startServers() {
+    const db = new Database()
+    await db.connect()
 
-app.use(express.json())
-app.use('/api', () => console.log(`hello world`))
+    // createa a smtp handler create a start the smtp server
+    
+    
+    // create a http server and start listening on some port
 
-const httpPort = process.env.HTTP_PORT
+}
 
-app.listen(httpPort, () => {
-    console.log(`🌐 listening to the api server on port : ${httpPort}`)
-})
+startServers()
