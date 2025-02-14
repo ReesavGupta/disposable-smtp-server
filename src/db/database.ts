@@ -40,7 +40,7 @@ export default class Database {
         }
     }
 
-    protected async addUser(username: string): Promise<void> {
+    public async addUser(username: string): Promise<void> {
         try {
             if (!username) {
                 throw new Error(`username is required`)

@@ -5,7 +5,7 @@ import { validateEmail } from '../utils/helperFunction'
 
 const DOMAIN = process.env.MAIL_DOMAIN
 
-class SmtpHandler {
+export default class SMTPHandler {
     private db: Database
     constructor(db: Database) {
         this.db = db
@@ -64,7 +64,7 @@ class SmtpHandler {
             }
         })
     }
-    public startCleanUp() {
+    public startCleanupRoutine() {
         setInterval(async () => {
             await this.db.deleteOldUsers()
         }, 30 * 60 * 1000)
