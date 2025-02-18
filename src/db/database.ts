@@ -1,7 +1,6 @@
 import { Pool } from 'pg'
 import dotenv from 'dotenv'
 dotenv.config()
-
 export default class Database {
     private pool: Pool
 

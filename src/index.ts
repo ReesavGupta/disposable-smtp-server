@@ -6,8 +6,8 @@ import { startHttpServer } from './handlers/httpServer'
 
 dotenv.config()
 
-const SMTP_PORT = 25
-const HTTP_PORT = 3000
+const SMTP_PORT = Number(process.env.SMTP_PORT) || 25
+const HTTP_PORT: number = Number(process.env.HTTP_PORT) || 3000
 
 async function startServers() {
     const db = new Database()
