@@ -7,10 +7,13 @@ export default class Database {
     constructor() {
         this.pool = new Pool({
             connectionString: process.env.CONNECTION_STRING,
+            max: 20,
+            idleTimeoutMillis: 30000,
+            connectionTimeoutMillis: 2000,
         })
     }
 
-    async connect(): Promise<void> {
+    async connect(): Promise<boolean> {
         try {
             const poolClientInstance = await this.pool.connect()
             if (!poolClientInstance) {
@@ -32,10 +35,12 @@ export default class Database {
                 );
             `)
             console.log(`connected to the database sucessfully`)
+            return true
         } catch (error) {
             console.log(
                 `unfortunately something crashed while connecting to the database`
             )
+            return false
         }
     }
 

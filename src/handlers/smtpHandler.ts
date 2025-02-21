@@ -12,15 +12,13 @@ export default class SMTPHandler {
     }
     public handleConnection(socket: net.Socket) {
         socket.write(RESPONSES.WELCOME)
-
         let sender = ''
         let reciever = ''
         let data = ''
         let dataMode = false
-
         socket.on('data', async (chunk) => {
+            console.log(`ive reached here ...`)
             const message = chunk.toString().trim()
-
             if (message.startsWith('HELO') || message.startsWith('EHLO')) {
                 socket.write(RESPONSES.HELLO)
             } else if (message.startsWith('MAIL FROM:')) {
@@ -35,12 +33,13 @@ export default class SMTPHandler {
                     return socket.write(RESPONSES.INVALID_EMAIL)
                 }
                 const [username, domain] = reciever.split('@')
+                const splittedUsername = username.split('<')
+                console.log('this is username: ', splittedUsername[1])
+                // if (domain !== DOMAIN) {
+                //     socket.write(`550 Only accepts emails for @${DOMAIN}\r\n`)
+                // }
 
-                if (domain !== DOMAIN) {
-                    socket.write(`550 Only accepts emails for @${DOMAIN}\r\n`)
-                }
-
-                if (!(await this.db.userExists(username))) {
+                if (!(await this.db.userExists(splittedUsername[1]))) {
                     return socket.write(RESPONSES.USER_NOT_FOUND)
                 }
                 socket.write(RESPONSES.OK)

@@ -13,8 +13,12 @@ async function startServers() {
     const db = new Database()
 
     try {
-        await db.connect()
-        console.log('Database connected successfully.')
+        const isDbConnected = await db.connect()
+        if (isDbConnected) {
+            console.log('Database connected successfully.')
+        } else {
+            throw new Error('Failed to connect to the database.')
+        }
     } catch (err) {
         console.error('Failed to connect to the database:', err)
         process.exit(1)
