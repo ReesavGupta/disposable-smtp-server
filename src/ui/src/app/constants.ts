@@ -1,0 +1,42 @@
+export const mails = [
+    {
+        To: 'testuser@localhost',
+        Subject: 'Test Email',
+        messageId: '',
+        Date: 'Fri, 21 Feb 2025 08:34:44 +0000',
+        Body: 'this is a test email',
+        From: 'senderuser@localhost',
+    },
+    {
+        To: 'testuser@localhost',
+        Subject: 'Test Email',
+        messageId: '',
+        Date: 'Fri, 21 Feb 2025 08:34:44 +0000',
+        Body: 'this is a test email',
+        From: 'senderuser@localhost',
+    },
+    {
+        To: 'testuser@localhost',
+        Subject: 'Test Email',
+        messageId: '',
+        Date: 'Fri, 21 Feb 2025 08:34:44 +0000',
+        Body: 'this is a test email',
+        From: 'senderuser@localhost',
+    },
+    {
+        To: 'testuser@localhost',
+        Subject: 'Test Email',
+        messageId: '',
+        Date: 'Fri, 21 Feb 2025 08:34:44 +0000',
+        Body: 'this is a test email',
+        From: 'senderuser@localhost',
+    },
+    {
+        To: 'testuser@localhost',
+        Subject: 'Test Email',
+        messageId: '',
+        Date: 'Fri, 21 Feb 2025 08:34:44 +0000',
+        Body: 'this is a test email',
+        From: 'senderuser@localhost',
+    },
+]

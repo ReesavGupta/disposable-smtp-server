@@ -1,4 +1,5 @@
 'use client'
+import AnimatedBackground from '@/components/AnimatedBackground'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -15,6 +16,7 @@ export default function Home() {
     }, [isSubmitted])
     return (
         <div className="border w-full flex justify-center items-center flex-col ">
+            <AnimatedBackground />
             <div className="w-[100%] border border-red-400 text-center">
                 <h1>This is Turbo Mail or some jazz lol</h1>
             </div>
