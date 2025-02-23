@@ -80,10 +80,22 @@ export default class Database {
         )
     }
 
-    async deleteOldUsers(): Promise<void> {
-        await this.pool.query(
-            `DELETE FROM users WHERE created_at < NOW() - INTERVAL "30 minutes"`
+    async getUserEmails(userEmail: string) {
+        const result = await this.pool.query(
+            `SELECT * FROM emails WHERE reciptient=$1 ORDER BY recieved_at DESC`,
+            [userEmail]
         )
+        return result.rows
+    }
+
+    async deleteOldUsers(): Promise<void> {
+        try {
+            await this.pool.query(
+                `DELETE FROM users WHERE created_at < NOW() - INTERVAL "30 minutes"`
+            )
+        } catch (error) {
+            console.log('Error while getting emails for user:', error)
+        }
     }
 
     async closePoolClient() {

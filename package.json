@@ -1,21 +1,37 @@
 {
-  "name": "smtp-server",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "ui",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "bun src/index.ts"
+    "dev": "concurrently \"next dev\" \"tsx src/server/index.ts\"",
+    "build": "next build",
+    "start": "concurrently \"next start\" \"NODE_ENV=production ts-node src/server/index.ts\"",
+    "lint": "next lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@types/express": "^5.0.0",
     "@types/nodemailer": "^6.4.17",
     "@types/pg": "^8.11.11",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "next": "15.1.7",
     "nodemailer": "^6.10.0",
-    "pg": "^8.13.3"
+    "pg": "^8.13.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^9.1.2",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.7",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5"
   }
 }
