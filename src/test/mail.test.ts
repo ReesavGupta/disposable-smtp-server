@@ -9,10 +9,10 @@ async function testEmail() {
         })
         console.log(`\ni am sending email now\n`)
         let info = await transporter.sendMail({
-            from: 'sender@example.com',
-            to: 'testuser@localhost.com',
-            subject: 'Test Email',
-            text: 'This is a test email',
+            from: 'mario@example.com',
+            to: 'hi@localhost.com',
+            subject: 'aighttt lesssgooooooo',
+            text: '🦀 lets gettt rustyyyyy',
         })
         console.log('Email sent: %s', info)
     } catch (error) {

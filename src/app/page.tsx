@@ -1,17 +1,20 @@
 'use client'
-
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ThemeToggle from '@/app/components/ThemeToggler'
 import AnimatedBackground from '@/app/components/AnimatedBackground'
 import InteractiveTitle from '@/app/components/InteractiveTitile'
+import { registerEmail } from './actions/email'
 
 export default function Home() {
     const [searchTerm, setSearchTerm] = useState('')
     const router = useRouter()
 
-    const handleSearch = () => {
-        if (searchTerm.trim()) {
+    const handleSearch = async () => {
+        const username = searchTerm.trim()
+        const isRegistered = await registerEmail(username)
+        console.log(isRegistered)
+        if (isRegistered) {
             router.push(
                 `/dashboard?q=${encodeURIComponent(searchTerm.toLowerCase())}`
             )

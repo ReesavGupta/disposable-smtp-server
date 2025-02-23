@@ -82,7 +82,7 @@ export default class Database {
 
     async getUserEmails(userEmail: string) {
         const result = await this.pool.query(
-            `SELECT * FROM emails WHERE reciptient=$1 ORDER BY recieved_at DESC`,
+            `SELECT * FROM emails WHERE recipient=$1 ORDER BY received_at DESC`,
             [userEmail]
         )
         return result.rows

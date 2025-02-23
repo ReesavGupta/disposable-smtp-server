@@ -3,15 +3,17 @@
 import Link from 'next/link'
 import ThemeToggle from '@/app/components/ThemeToggler'
 import { Suspense, useEffect, useState } from 'react'
-// import { searchEmails } from ''
 import { useSearchParams, useRouter } from 'next/navigation'
-// import { SemiParserEmail } from '@/hooks/parseEmail'
+import { searchEmails } from '../actions/email'
+import { parseEmail } from '@/utils/helperFunctions'
+import { ParsedEmail } from '@/types'
 
 export interface Email {
-    date: string
-    sender: string
-    recipients: string
     data: string
+    id: number
+    received_at: Date
+    recipient: string
+    sender: string
 }
 
 function SearchResultsContent() {
@@ -26,17 +28,24 @@ function SearchResultsContent() {
         }
     }, [query, router])
 
-    const [emails, setEmails] = useState<Email[]>([])
+    const [emails, setEmails] = useState<ParsedEmail[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         async function fetchEmails() {
             if (query) {
                 try {
-                    const result = await searchEmails(
-                        `${query}@fractal.reesuki.dev`
+                    const result: Email[] = await searchEmails(
+                        `${query}@localhost.com`
                     )
-                    setEmails(result)
+                    console.log(result)
+                    if (result.length) {
+                        const parsedEmails = await Promise.all(
+                            result.map((email) => parseEmail(email.data))
+                        )
+                        console.log(parsedEmails)
+                        setEmails(parsedEmails)
+                    }
                 } catch (error) {
                     console.error('Failed to fetch emails:', error)
                 } finally {
@@ -52,7 +61,7 @@ function SearchResultsContent() {
     }
 
     const selectedEmail = selectedEmailId
-        ? emails[parseInt(selectedEmailId)]
+        ? emails[parseInt(selectedEmailId, 10)]
         : null
 
     return (
@@ -60,29 +69,29 @@ function SearchResultsContent() {
             {selectedEmail ? (
                 <>
                     <Link
-                        href={`/search?q=${query}`}
+                        href={`/dashboard?q=${query}`}
                         className="neutro-button inline-block mb-8 text-2xl"
                     >
                         BACK
                     </Link>
                     <div className="neutro-box p-8 overflow-hidden">
                         <h1 className="text-3xl sm:text-4xl font-bold mb-4 break-words">
-                            {selectedEmail.data.subject}
+                            {selectedEmail.subject}
                         </h1>
                         <p className="text-xl sm:text-2xl mb-4">
                             {new Date(selectedEmail.date).toLocaleDateString()}
                         </p>
                         <p className="text-lg sm:text-xl mb-2 break-words">
-                            From: {selectedEmail.data.from}
+                            From: {selectedEmail.from}
                         </p>
                         <p className="text-lg sm:text-xl mb-4 break-words">
-                            To: {selectedEmail.recipients}
+                            To: {selectedEmail.to}
                         </p>
                         <div className="border-t border-foreground pt-4 mt-4">
                             <div
                                 className="text-lg sm:text-xl whitespace-pre-wrap break-words prose dark:prose-invert max-w-none"
                                 dangerouslySetInnerHTML={{
-                                    __html: selectedEmail.data.html,
+                                    __html: selectedEmail.text,
                                 }}
                             ></div>
                         </div>
@@ -91,17 +100,17 @@ function SearchResultsContent() {
             ) : (
                 <>
                     <h2 className="text-3xl sm:text-4xl font-bold mb-6 break-words">
-                        Mails for &quot;{query}@fractal.reesuki.dev&quot;
+                        Mails for &quot;{query}@localhost.com&quot;
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {emails.map((email, index) => (
                             <Link
-                                href={`/search?q=${query}&email=${index}`}
+                                href={`/dashboard?q=${query}&email=${index}`}
                                 key={index}
                             >
                                 <div className="neutro-box p-6 hover:bg-accent transition-colors h-[200px] flex flex-col">
                                     <h3 className="text-2xl sm:text-3xl font-bold mb-2 break-words line-clamp-2 flex-none">
-                                        {email.data.subject || '(No Subject)'}
+                                        {email.from || '(No Sender)'}
                                     </h3>
                                     <p className="text-lg sm:text-xl mb-2 flex-none">
                                         {new Date(
@@ -109,7 +118,8 @@ function SearchResultsContent() {
                                         ).toLocaleDateString()}
                                     </p>
                                     <p className="text-base sm:text-lg line-clamp-2 overflow-hidden">
-                                        {email.data.text}
+                                        <b> SUB:</b>{' '}
+                                        {email.subject || '(No Content)'}
                                     </p>
                                 </div>
                             </Link>
@@ -119,7 +129,7 @@ function SearchResultsContent() {
                         <p className="text-xl sm:text-2xl text-center neutro-box p-8">
                             No mails found. Try sending a mail to <br />
                             <span className="font-bold">
-                                &apos;{query}@fractal.reesuki.dev&apos;
+                                &apos;{query}@localhost.com&apos;
                             </span>{' '}
                             <br />
                             and Try Again.

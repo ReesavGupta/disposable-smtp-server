@@ -1,7 +1,7 @@
 import Database from '../db/database'
 import net from 'net'
 import { RESPONSES } from '../config/responses'
-import { validateEmail } from '../utils/helperFunction'
+import { validateEmail } from '../utils/helperFunctions'
 
 const DOMAIN = process.env.MAIL_DOMAIN
 if (!DOMAIN) {

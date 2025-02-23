@@ -6,9 +6,7 @@ import { revalidatePath } from 'next/cache'
 const db = new Database()
 await db.connect()
 
-export async function registerEmail(formData: FormData) {
-    const username = formData.get('username')
-
+export async function registerEmail(username: string) {
     if (!username || typeof username !== 'string' || username.length > 255) {
         throw new Error('Invalid username')
     }
@@ -19,7 +17,7 @@ export async function registerEmail(formData: FormData) {
     revalidatePath('/')
 
     return {
-        email: `${sanitizedUsername}@yourdomain.com`,
+        email: `${sanitizedUsername}@localhost.com`,
         expires_in: '30 minutes',
     }
 }
